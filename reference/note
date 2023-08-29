@@ -1,0 +1,37 @@
+Here is code to simulate an LNK model. 
+
+compute_est(a, stim): main routine to call
+a is parameter list, stim is the usually the stimulus (but you will change this as stated below) 
+Simulate_4stat(): implements kinetics block.
+inhibLNKparams:parameter file for one LNK inhibitory pathway
+
+You will want to call compute_est(), but not with a stimulus, with the linear prediction that comes from passing a moving bar (or other stimulus) through the amacrine RF.
+You will want to do the following:
+
+load inhibLNKparams
+
+This will give you one variable, params.
+
+modify the following code in compute_est()
+
+%convolve with linear filter
+    h = basis*a(1:15)';
+    linear_out1 = conv(stim,h);
+    linear_out1 = linear_out1(1:length(stim))
+
+This section performs the convolution, but you will skip this step, and replace it with:
+
+linear_out1 = stim;
+This is because you will call the function with the linear prediction instead of the stimulus.
+
+compute_est (params,linear_prediction)
+
+The variable params are:
+params (1:15) defines the filter (you won’t use this)
+params(16:20) parameters for the nonlinearity and scaling the output
+params(21:26) kinetics block parameters, only three are nonzero -  params(22): kfi; params(24):kfr;params(26): ksi
+params(27): final scaling factor
+
+So to get the simulation to work, you might need to modify the amplitude of your linear prediction to be in the range of the nonlinearity. Alternatively, you could modify params (16:20) to change the nonlinearity but this might be more effort.
+
+To affect gain control, you might need to modify the kinetic parameters, but I would try changing the amplitude of the stimulus first so that we can say we took the kinetic parameters for sustained amacrine cells from an entirely different experiment.
