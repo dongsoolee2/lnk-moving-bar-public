@@ -1,4 +1,4 @@
-Linear-Nonlinear-Kinetics (LNK) model for moving bar experiments
+# Linear-Nonlinear-Kinetics (LNK) model for moving bar experiments
 
 Dongsoo Lee
 
